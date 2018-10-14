@@ -16,10 +16,7 @@ class CleanupWorker(context: Context, params: WorkerParameters) : Worker(context
         File(applicationContext.filesDir, OUTPUT_PATH)
                 .takeIf { it.exists() }
                 ?.listFiles { _, name -> name.endsWith(".png") }
-                ?.forEach {
-                    val deleted = it.delete()
-                    Log.i(TAG, String.format("Deleted %s - %s", it.name, deleted))
-                }
+                ?.forEach { Log.i(TAG, "Deleted ${it.name} is ${it.delete()}") }
         Result.SUCCESS
     } catch (e: Exception) {
         Log.e(TAG, "Error cleaning up", e)
