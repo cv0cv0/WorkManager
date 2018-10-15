@@ -4,22 +4,22 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
-import android.util.Log
 import androidx.annotation.WorkerThread
 import androidx.work.Data
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import me.gr.workmanager.common.KEY_IMAGE_URI
 import me.gr.workmanager.common.OUTPUT_PATH
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.error
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.InputStream
 import java.util.*
 
-abstract class BaseFilterWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
+abstract class BaseFilterWorker(context: Context, params: WorkerParameters) : Worker(context, params), AnkoLogger {
     companion object {
-        private const val TAG = "BaseFilterWorker"
         private const val ASSET_PREFIX = "file:///android_asset/"
     }
 
@@ -29,7 +29,7 @@ abstract class BaseFilterWorker(context: Context, params: WorkerParameters) : Wo
     override fun doWork(): Result {
         val resourceUri = inputData.getString(KEY_IMAGE_URI)
         if (resourceUri.isNullOrEmpty()) {
-            Log.e(TAG, "Invalid input uri")
+            error("Invalid input uri")
             throw IllegalArgumentException("Invalid input uri")
         }
 
@@ -42,10 +42,10 @@ abstract class BaseFilterWorker(context: Context, params: WorkerParameters) : Wo
             outputData = Data.Builder().putString(KEY_IMAGE_URI, outputUri.toString()).build()
             Result.SUCCESS
         } catch (fileNotFoundException: FileNotFoundException) {
-            Log.e(TAG, "Failed to decode input stream", fileNotFoundException)
+            error("Failed to decode input stream", fileNotFoundException)
             throw RuntimeException("Failed to decode input stream", fileNotFoundException)
         } catch (throwable: Throwable) {
-            Log.e(TAG, "Error applying filter", throwable)
+            error("Error applying filter", throwable)
             Result.FAILURE
         } finally {
             inputStream?.close()

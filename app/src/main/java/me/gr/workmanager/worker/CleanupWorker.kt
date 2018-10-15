@@ -1,25 +1,24 @@
 package me.gr.workmanager.worker
 
 import android.content.Context
-import android.util.Log
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import me.gr.workmanager.common.OUTPUT_PATH
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.error
+import org.jetbrains.anko.info
 import java.io.File
 
-class CleanupWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
-    companion object {
-        private const val TAG = "CleanupWorker"
-    }
+class CleanupWorker(context: Context, params: WorkerParameters) : Worker(context, params), AnkoLogger {
 
     override fun doWork(): Result = try {
         File(applicationContext.filesDir, OUTPUT_PATH)
                 .takeIf { it.exists() }
                 ?.listFiles { _, name -> name.endsWith(".png") }
-                ?.forEach { Log.i(TAG, "Deleted ${it.name} is ${it.delete()}") }
+                ?.forEach { info("Deleted ${it.name} is ${it.delete()}") }
         Result.SUCCESS
     } catch (e: Exception) {
-        Log.e(TAG, "Error cleaning up", e)
+        error("Error cleaning up", e)
         Result.FAILURE
     }
 }

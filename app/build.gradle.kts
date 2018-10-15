@@ -33,6 +33,7 @@ val retrofitVersion = "2.3.0"
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(kotlin("stdlib-jdk7", KotlinCompilerVersion.VERSION))
+    implementation("org.jetbrains.anko:anko:0.10.7")
     implementation("androidx.appcompat:appcompat:$supportVersion")
     implementation("androidx.cardview:cardview:$supportVersion")
     implementation("com.google.android.material:material:$supportVersion")

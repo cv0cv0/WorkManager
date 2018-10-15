@@ -2,18 +2,16 @@ package me.gr.workmanager.worker
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
-import android.widget.Toast
 import androidx.work.Data
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import me.gr.workmanager.api.uploadImage
 import me.gr.workmanager.common.KEY_IMAGE_URI
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.error
+import org.jetbrains.anko.toast
 
-class UploadWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
-    companion object {
-        private const val TAG = "UploadWorker"
-    }
+class UploadWorker(context: Context, params: WorkerParameters) : Worker(context, params), AnkoLogger {
 
     override fun doWork(): Result {
         val imageUri = inputData.getString(KEY_IMAGE_URI)
@@ -25,14 +23,14 @@ class UploadWorker(context: Context, params: WorkerParameters) : Worker(context,
             } else {
                 val errorBody = response.errorBody()
                 val errorMessage = errorBody?.string() ?: "Request failed"
-                Toast.makeText(applicationContext, errorMessage, Toast.LENGTH_SHORT).show()
-                Log.e(TAG, errorMessage)
+                applicationContext.toast(errorMessage)
+                error(errorMessage)
                 Result.FAILURE
             }
         } catch (e: Exception) {
             val errorMessage = "Failed to upload image with URI: $imageUri"
-            Toast.makeText(applicationContext, errorMessage, Toast.LENGTH_SHORT).show()
-            Log.e(TAG, errorMessage)
+            applicationContext.toast(errorMessage)
+            error(errorMessage)
             Result.FAILURE
         }
     }
