@@ -10,3 +10,5 @@ const val IMGUR_CLIENT_ID = ""
 const val KEY_IMAGE_URI = "KEY_IMAGE_URI"
 const val OUTPUT_PATH = "filter_outputs"
 const val TAG_OUTPUT = "OUTPUT"
+
+const val ASSET_PREFIX = "file:///android_asset/"
