@@ -19,7 +19,7 @@
     <string name="description_image">The image to filter and upload.</string>
     <!-- messages -->
     <string name="set_permissions_in_settings">
-        Go to Settings -> Apps and Notifications -> WorkManager Demo -> App Permissions
+        Go to Settings -> Apps and Notifications -> WorkManager -> App Permissions
         and grant access to Storage.
     </string>
     <string name="credits">

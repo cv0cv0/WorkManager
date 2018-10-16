@@ -27,13 +27,15 @@ android {
     }
 }
 
+val ankoVersion="0.10.7"
 val supportVersion = "1.0.0"
 val workVersion = "1.0.0-alpha09"
 val retrofitVersion = "2.3.0"
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(kotlin("stdlib-jdk7", KotlinCompilerVersion.VERSION))
-    implementation("org.jetbrains.anko:anko:0.10.7")
+    implementation("org.jetbrains.anko:anko:$ankoVersion")
+    implementation("org.jetbrains.anko:anko-design:$ankoVersion")
     implementation("androidx.appcompat:appcompat:$supportVersion")
     implementation("androidx.cardview:cardview:$supportVersion")
     implementation("com.google.android.material:material:$supportVersion")
